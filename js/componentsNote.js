@@ -1,19 +1,43 @@
-///let note = document.getElementById("note")
-///let startTime ,  endTime;
-///
-///note.onmousedown = function() {
-///    console.log("Estoy presionado, haz lo que necesites...");
-///    console.log(this.getBoundingClientRect()) 
-///};
-///
-///
-///note.onmouseup = function() {
-///  };
 
-const links =  ` 
+class noteComponent extends HTMLElement {
+    constructor(note) {
+      super();
+      this.template = document.createElement("template")
+      this.note = note
+
+      this.attachShadow({mode:"open"})
+
+    }
+
+    connectedCallback()
+    {
+      // estructura basica para que funcione un componente
+      this.template.innerHTML = this.formarNota()
+      let cloneDom = document.importNode(this.template.content , true)
+      this.shadowRoot.appendChild(cloneDom)
+
+      this.deleteComponent()
+        
+    }
+    
+    deleteComponent()
+    {
+        let botonDelete = this.shadowRoot.getElementById("boton_delete")
+        botonDelete.addEventListener("click" , () => 
+        {   
+            //this referencia al actual Objecto 
+            this.parentNode.removeChild(this)
+            localStorage.removeItem("Nota" + this.note.id)
+        })
+    }
+
+    formarNota()
+    {
+
+        const links =  ` 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-`
-const estilos = `
+                        `
+        const estilos = `
 <style>
 
 *{
@@ -84,39 +108,31 @@ const estilos = `
     color: red;
      
 }
-</style>`
+        </style>`
 
-const htmlEstruct = `${links}${estilos}
-<div class="note">
-<div class="nav">
-<p>04/01/2021</p>
-<div>
-<button><i class="fas fa-trash-alt"></i></button>
-<button><i class="far fa-save"></i></i></button>
-</div>
-</div>
-<div class="contenido">
-<textarea name="" id="" cols="30" rows="10"></textarea>
-</div>
-</div>`
+        const htmlEstruct = `${links}${estilos}
+        <div class="note">
+            <div class="nav">
+            <p>${this.note.date}</p>
+                <div>
+                    <button id="boton_delete"><i class="fas fa-trash-alt"></i></button>
+                    <button><i class="far fa-save"></i></i></button>
+            </div>
+        </div>
+            <div class="contenido">
+                <textarea name="contenido" id="input-area" cols="30" rows="10" value ="${this.note.value}"></textarea>
+            </div>
+        </div>`
 
+        console.log(this.note)
 
-class Note extends HTMLElement {
-    constructor() {
-      super();
-      this.template = document.createElement("template")
-      this.attachShadow({mode:"open"})
+        return htmlEstruct
     }
-    //innerHTML
-    connectedCallback()
-    {
-      // estructura basica para que funcione un componente
-      this.template.innerHTML = htmlEstruct
-      let cloneDom = document.importNode(this.template.content , true)
-      this.shadowRoot.appendChild(cloneDom)
-    } 
 
+    
     
 }
 
-  window.customElements.define("note-template", Note);
+window.customElements.define("note-template", noteComponent);
+
+export default noteComponent
