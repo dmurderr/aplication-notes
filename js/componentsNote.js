@@ -16,7 +16,8 @@ class noteComponent extends HTMLElement {
       let cloneDom = document.importNode(this.template.content , true)
       this.shadowRoot.appendChild(cloneDom)
 
-      this.deleteComponent()
+      this.event()
+
         
     }
     
@@ -116,21 +117,34 @@ class noteComponent extends HTMLElement {
             <p>${this.note.date}</p>
                 <div>
                     <button id="boton_delete"><i class="fas fa-trash-alt"></i></button>
-                    <button><i class="far fa-save"></i></i></button>
+                    <button id="boton_update"><i class="far fa-save"></i></i></button>
             </div>
         </div>
             <div class="contenido">
-                <textarea name="contenido" id="input-area" cols="30" rows="10" value ="${this.note.value}"></textarea>
+                <textarea name="contenido" id="input-area" cols="30" rows="10">${this.note.value}</textarea>
             </div>
-        </div>`
-
-        console.log(this.note)
+        </div>` 
 
         return htmlEstruct
     }
 
+    actualizarConteido()
+    {
+        const button_update = this.shadowRoot.getElementById("boton_update")
+
+        button_update.addEventListener("click", () =>
+        {
+            const contenido = this.shadowRoot.getElementById("input-area")
+            console.log(this.note)
+            this.note.updateNote(contenido.value)  
+        })
+    }
     
-    
+    event()
+    {
+        this.deleteComponent()
+        this.actualizarConteido()
+    }
 }
 
 window.customElements.define("note-template", noteComponent);
