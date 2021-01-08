@@ -4,7 +4,6 @@ class noteComponent extends HTMLElement {
       super();
       this.template = document.createElement("template")
       this.note = note
-
       this.attachShadow({mode:"open"})
 
     }
@@ -15,8 +14,9 @@ class noteComponent extends HTMLElement {
       this.template.innerHTML = this.formarNota()
       let cloneDom = document.importNode(this.template.content , true)
       this.shadowRoot.appendChild(cloneDom)
+      //Fin
 
-      this.event()
+      this.event() // cargamos lo elementos al conectarse con el DOM
 
         
     }
@@ -32,9 +32,8 @@ class noteComponent extends HTMLElement {
         })
     }
 
-    formarNota()
+    formarNota() // Al usar Un objeto como nota , nos facilita el uso para crear el html
     {
-
         const links =  ` 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
                         `
@@ -67,7 +66,7 @@ class noteComponent extends HTMLElement {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     border-bottom: 0;
-    background-color: rgba(231, 207, 255) ;
+    background-color: ${this.note.styles.backgroundNav} ;
     align-items: center;
 }
 
@@ -80,11 +79,11 @@ class noteComponent extends HTMLElement {
 .note .contenido , .note .contenido textarea
 {
     width: 100%;
-    height: 100%;
+    height: 100%;rgba(242, 230, 255)
     border: 1px solid black;
     border-bottom-right-radius: 50px;
     border-bottom-left-radius: 15px;
-    background-color: rgba(242, 230, 255);
+    background-color: ${this.note.styles.background};
 }
 
 
@@ -116,26 +115,27 @@ class noteComponent extends HTMLElement {
             <div class="nav">
             <p>${this.note.date}</p>
                 <div>
+                    <button id="option"><i class="far fa-sticky-note"></i></button>
                     <button id="boton_delete"><i class="fas fa-trash-alt"></i></button>
                     <button id="boton_update"><i class="far fa-save"></i></i></button>
             </div>
         </div>
             <div class="contenido">
-                <textarea name="contenido" id="input-area" cols="30" rows="10">${this.note.value}</textarea>
+                <textarea name="contenido" id="input-area" cols="30" rows="10" >${this.note.value}</textarea>
             </div>
         </div>` 
 
         return htmlEstruct
     }
 
-    actualizarConteido()
+    actualizarContenido()
     {
         const button_update = this.shadowRoot.getElementById("boton_update")
 
         button_update.addEventListener("click", () =>
         {
             const contenido = this.shadowRoot.getElementById("input-area")
-            console.log(this.note)
+
             this.note.updateNote(contenido.value)  
         })
     }
@@ -143,7 +143,7 @@ class noteComponent extends HTMLElement {
     event()
     {
         this.deleteComponent()
-        this.actualizarConteido()
+        this.actualizarContenido()
     }
 }
 

@@ -3,6 +3,7 @@ import noteComponent from "./componentsNote.js"
 const date = new Date()
 var hoy = `${date.getDate()} / ${date.getMonth() + 1} / ${date.getFullYear()}`
 
+  
 class Note
 {
     constructor(value = "" , id = 0 , date = hoy)
@@ -11,6 +12,13 @@ class Note
         this.value = value 
         this.id = id
         this.noteadd = "Nota" + this.id
+        this.styles = 
+        {
+            color: "#fff",
+            background : "rgba(242, 230, 255)",
+            backgroundNav : "rgba(231, 207, 255)",
+            fontSize:"24px" , 
+        }
     }
 
     saveNote()
@@ -18,7 +26,8 @@ class Note
         let  json = {
             date : this.date,
             value : this.value,
-            id : this.id
+            id : this.id,
+            styles: this.styles
         }
 
         
@@ -39,7 +48,7 @@ class Note
 
 }
 
-
+// Al tener un componente para la nota y tener un objeto para la misma nota , considere que era mejor tener un controlador para el componente y la nota
 class Controler
 {
     constructor()
@@ -47,7 +56,7 @@ class Controler
         this.notes = []
         this.padre = document.getElementById("main")
         this.totalNotes = localStorage.length
-        this.recuperarNotas()
+        this.recuperarNotas() // Al iniciar la pagina las notas se tiene que volver a "fabricar"
 
     }
 
@@ -61,16 +70,17 @@ class Controler
 
     recuperarNotas()
     {
+        // Con esto succeden varios bugs, a mi parecer se pueden mejorar quizas 
+        // en vez de ir a buscar cada nota individualmente al localStorage , usar un JSON para despues solo sacar un elemento del localStorge
 
-        if(this.totalNotes > 0)
+        if(this.totalNotes > 0) // por si no tenemos caché, asi evitamos buscar "innecesariamente"
         {
-            console.log(this.totalNotes)
-        
+             
             let i = 0;
         
-            while (this.notes.length < this.totalNotes)
+            while (this.notes.length < this.totalNotes) // al usar un for tenemos un problema para saber cuando detenerlo, por ende al saber la cantidad totald notas en caché un while viene perfecto
             {
-                if(localStorage.getItem("Nota" + i) == null)
+                if(localStorage.getItem("Nota" + i) == null) // para evitar conflictos
                 {
                     i++
                     continue
@@ -79,15 +89,13 @@ class Controler
                     this.notes.push(localStorage.getItem("Nota" + i))
                     i++
                 }
-
-                
-
             }
 
             this.loadNotes()
             
         }else
         {
+            //no sucede nada
         }    
          
     }
@@ -95,18 +103,20 @@ class Controler
     loadNotes()
     {
         const padre = document.getElementById("main")
+        let fragment = new DocumentFragment()
         this.notes.forEach(stirngNote =>
         {
             let objectNote = JSON.parse(stirngNote)
             let note = new Note(objectNote.value , objectNote.id , objectNote.date) 
-            padre.appendChild(new noteComponent(note))
-
+            fragment.appendChild(new noteComponent(note))
         })
+
+        padre.appendChild(fragment)
     }
 
     event()
     {
-
+        // para futuras cosas
     }
 
 
