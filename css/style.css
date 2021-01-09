@@ -7,6 +7,7 @@
     flex-direction: column;
     width: 400px;
     height: 450px;
+    position: relative;
 }
 
 .note .nav
@@ -20,7 +21,7 @@
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     border-bottom: 0;
-    background-color: rgba(231, 207, 255) ;
+    background-color: var(--background-nav) ;
     align-items: center;
 }
 
@@ -37,7 +38,7 @@
     border: 1px solid black;
     border-bottom-right-radius: 50px;
     border-bottom-left-radius: 15px;
-    background-color: rgba(242, 230, 255);
+    background-color: var(--background-text);
 }
 
 
@@ -76,4 +77,78 @@
 .button-add i 
 {
     margin: 7px;
+}
+
+
+/*Mini notes*/
+:root
+{
+    --background-text: rgba(242, 230, 255);
+    --background-nav: rgba(231, 207, 255);
+}
+
+.note .colores 
+{
+    display: none;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: repeat(7, 14.2857%);
+    width: 100%;
+    position: absolute;
+    top: 34px;
+    
+}
+
+.colores .mini-note
+{
+    width: 100%;
+    height: 70px;
+
+    border: 1px solid black;
+} 
+
+.mini-note:hover{
+    opacity: 0.6;
+}
+
+.azul
+{
+    --background-nav:rgb(205,233,255);
+    background-color:rgb(226,241,255) ;
+}
+
+.amarillo
+{
+    --background-nav:rgb(255,242,171);
+    background-color: rgb(255,247,209);
+}
+
+.rosado
+{
+    --background-nav:rgb(255,204,229);
+    background-color: rgb(255,228,241);
+}
+
+.gris
+{
+    --background-nav: rgb(225,223,221);
+    background-color: rgb(243,242,241);
+}
+
+.carboncillo
+{
+    --background-nav:rgb(73,71,69);
+    background-color:rgb(105,105,105) ;
+}
+
+.purpura
+{
+    --background-nav:rgb(225,223,221);
+    background-color: rgb(243,242,241);
+}
+
+.verde
+{
+    --background-nav:rgb(74,231,196);
+    background-color:rgb(203,241,196) ;
 }

@@ -45,6 +45,13 @@ class noteComponent extends HTMLElement {
     margin: 0;
     padding: 0;
 }
+
+:root
+{
+    --background-text: rgba(242, 230, 255);
+    --background-nav: rgba(231, 207, 255);
+}
+
 .note
 {
     margin: 25px;
@@ -53,6 +60,7 @@ class noteComponent extends HTMLElement {
     flex-direction: column;
     width: 400px;
     height: 450px;
+    position: relative;
 }
 
 .note .nav
@@ -108,22 +116,106 @@ class noteComponent extends HTMLElement {
     color: red;
      
 }
-        </style>`
+
+.note .colores 
+{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: repeat(7, 14.2857%);
+    width: 100%;
+    position: absolute;
+    top: 34px;
+}
+
+.colores .mini-note
+{
+    width: 100%;
+    height: 70px;
+
+    border: 1px solid black;
+} 
+
+.mini-note:hover{
+    opacity: 0.6;
+}
+
+.azul
+{
+    --background-nav:rgb(205,233,255);
+    background-color:rgb(226,241,255) ;
+}
+
+.amarillo
+{
+    --background-nav:rgb(255,242,171);
+    background-color: rgb(255,247,209);
+}
+
+.rosado
+{
+    --background-nav:rgb(255,204,229);
+    background-color: rgb(255,228,241);
+}
+
+.gris
+{
+    --background-nav: rgb(225,223,221);
+    background-color: rgb(243,242,241);
+}
+
+.carboncillo
+{
+    --background-nav:rgb(73,71,69);
+    background-color:rgb(105,105,105) ;
+}
+
+.purpura
+{
+    --background-nav:rgb(225,223,221);
+    background-color: rgb(243,242,241);
+}
+
+.verde
+{
+    --background-nav:rgb(74,231,196);
+    background-color:rgb(203,241,196) ;
+}
+
+</style>`
 
         const htmlEstruct = `${links}${estilos}
-        <div class="note">
-            <div class="nav">
+    <div class="note">
+
+        <div class="nav">
+
             <p>${this.note.date}</p>
-                <div>
-                    <button id="option"><i class="far fa-sticky-note"></i></button>
-                    <button id="boton_delete"><i class="fas fa-trash-alt"></i></button>
-                    <button id="boton_update"><i class="far fa-save"></i></i></button>
+
+            <div>
+                <button id="option"><i class="far fa-sticky-note"></i></button>
+                <button id="boton_delete"><i class="fas fa-trash-alt"></i></button>
+                <button id="boton_update"><i class="far fa-save"></i></i></button>
             </div>
+
+            
+
         </div>
-            <div class="contenido">
-                <textarea name="contenido" id="input-area" cols="30" rows="10" >${this.note.value}</textarea>
-            </div>
-        </div>` 
+
+        <div class="colores">
+            <div class="mini-note azul" title="Azul" ></div>
+            <div class="mini-note amarillo" title="Amarillo"></div>
+            <div class="mini-note rosado" title="Rosado"></div>
+            <div class="mini-note gris" title="Gris"></div>
+            <div class="mini-note carboncillo" title="Carboncillo"></div>
+            <div class="mini-note verde" title="Verde"></div>
+            <div class="mini-note purpura" title="Purpura"></div>
+        </div>
+    
+        <div class="contenido">
+            <textarea name="contenido" id="input-area" cols="30" rows="10" >${this.note.value}</textarea>
+        </div>
+    
+    </div>` 
 
         return htmlEstruct
     }
