@@ -6,19 +6,13 @@ var hoy = `${date.getDate()} / ${date.getMonth() + 1} / ${date.getFullYear()}`
   
 class Note
 {
-    constructor(value = "" , id = 0 , date = hoy)
+    constructor(value = "" , id = 0 , date = hoy , styles)
     {
         this.date = date
         this.value = value 
         this.id = id
         this.noteadd = "Nota" + this.id
-        this.styles = 
-        {
-            color: "#fff",
-            background : "rgba(242, 230, 255)",
-            backgroundNav : "rgba(231, 207, 255)",
-            fontSize:"24px" , 
-        }
+        this.styles = styles
     }
 
     saveNote()
@@ -41,8 +35,10 @@ class Note
         
         // modificaciones
         this.value = value
+        //Estilos
         //la eliminamo
         localStorage.removeItem(this.noteadd)
+        //estilos
         this.saveNote()
     }
 
@@ -62,7 +58,13 @@ class Controler
 
     addNote(padre) { 
                 // basicamente cuando el cliente es nuevo se crea un nuevo contructor y las notas partirian desde el 1 por sumarle entonces hacemos una condicional para arreglar el bug
-        let note = new Note("",this.totalNotes, hoy) 
+        let estilos =  {
+            color: "#fff",
+            background : "rgba(242, 230, 255)",
+            backgroundNav : "rgba(231, 207, 255)",
+            fontSize:"24px" , 
+        }        
+        let note = new Note("",this.totalNotes, hoy , estilos ) 
         padre.appendChild(new noteComponent(note))
         note.saveNote()
         this.totalNotes++
@@ -107,7 +109,7 @@ class Controler
         this.notes.forEach(stirngNote =>
         {
             let objectNote = JSON.parse(stirngNote)
-            let note = new Note(objectNote.value , objectNote.id , objectNote.date) 
+            let note = new Note(objectNote.value , objectNote.id , objectNote.date , objectNote.styles) 
             fragment.appendChild(new noteComponent(note))
         })
 
